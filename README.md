@@ -7,9 +7,8 @@
   </p>
 
   <p>
-    <a href="https://badge.fury.io/py/audion"><img src="https://badge.fury.io/py/audion.svg" alt="PyPI version"></a>
     <a href="https://github.com/magovoice/audion-python-sdk/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
-    <a href="https://python.org"><img src="https://img.shields.io/badge/python-3.7+-blue.svg" alt="Python version"></a>
+    <a href="https://python.org"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python version"></a>
   </p>
 </div>
 
@@ -38,6 +37,8 @@ pip install audion
 또는 requirements.txt에서 의존성과 함께 설치:
 
 ```bash
+git clone https://github.com/magovoice/audion-python-sdk.git
+cd audion-python-sdk
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
