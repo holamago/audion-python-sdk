@@ -1,6 +1,7 @@
 # Table of contents
 
-* [Python SDK](README.md)
+* [Audion Python SDK](README.md)
+* [Realtime Python SDK](realtime-python-sdk.md)
 * ```yaml
   type: builtin:openapi
   props:
