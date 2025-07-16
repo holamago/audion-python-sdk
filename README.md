@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://audion.magovoice.com/static/media/logo.10d2cf1b78c4088112afa09c702c5c2d.svg" width="200">
-  <h1>Audion Python SDK</h1>
+  <!-- <img src="https://audion.magovoice.com/static/media/logo.10d2cf1b78c4088112afa09c702c5c2d.svg" width="200">
+  <h1>Audion Python SDK</h1> -->
 
   <p>
     <strong>음성 AI 구현의 복잡함을 없애고, 비즈니스 가능성을 확장하세요.</strong>
