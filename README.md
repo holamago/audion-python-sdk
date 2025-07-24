@@ -35,6 +35,7 @@ pip을 사용하여 설치:
 ```bash
 pip install audion
 ```
+** 지원 예정
 
 또는 requirements.txt에서 의존성과 함께 설치:
 

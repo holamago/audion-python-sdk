@@ -33,12 +33,9 @@ class AudionClient(BaseAudionClient):
 
 
 def main():
-    # client = AudionClient()
-    client = AudionClient(api_key="mk-6bXRk8vOkafs2HLpS1pOL0-u5sIIbetZB7a2NSoxAB5nL35E")
+    client = AudionClient(api_key="mk-h19xW7wb_tjMyja8OpOYeGgjWtzSnGajtRSF55yH7L-qvYes")
     result = client.flow(
         flow="audion_vu",
-        # input_type="url",
-        # input="https://youtu.be/gp0dKNgbldA?feature=shared",
         input_type="file",
         input="test/audio/sample_10s.flac",
     )
