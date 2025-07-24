@@ -39,7 +39,7 @@ pip install audion
 또는 requirements.txt에서 의존성과 함께 설치:
 
 ```bash
-git clone https://github.com/magovoice/audion-python-sdk.git
+git clone https://github.com/holamago/audion-python-sdk.git
 cd audion-python-sdk
 python -m venv venv
 source venv/bin/activate
@@ -208,7 +208,7 @@ if __name__ == "__main__":
 ## 📞 지원
 
 - **문서**: [Audion 공식 문서](https://audion.magovoice.com)
-- **이슈**: [GitHub Issues](https://github.com/magovoice/audion-python-sdk/issues)
+- **이슈**: [GitHub Issues](https://github.com/holamago/audion-python-sdk/issues)
 - **이메일**: contact@holamago.com
 
 ## 📈 버전 히스토리
@@ -217,20 +217,6 @@ if __name__ == "__main__":
   - 기본 flow API 지원
   - 파일 및 URL 입력 지원
   - 다중 오디오/비디오 형식 지원
-
----
-
-# Audion Realtime SDK
-
-## 📋 요구사항
-
-- python 3.10 이상 설치되어 있어야 합니다.
-
-## Mago
-
-pip을 사용하여 설치:
-
-
 
 <div align="center">
   <p>Made with ❤️ by <a href="https://magovoice.com">MAGO</a></p>
