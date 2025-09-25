@@ -5,7 +5,7 @@
 # Sukbong Kwon (Galois)
 
 from typing import Optional
-from base import BaseAudionClient
+from .base import BaseAudionClient
 
 class AudionClient(BaseAudionClient):
     def __init__(
