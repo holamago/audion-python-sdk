@@ -14,7 +14,22 @@
 
 # Audion Python SDK
 
-## 🌟 특징
+## 목차
+
+- [특징](#특징)
+- [요구사항](#요구사항)
+- [설치](#설치)
+- [빠른 시작](#빠른-시작)
+- [API 문서](#api-문서)
+- [사용 예제](#-사용-예제)
+- [지원 파일 형식](#-지원-파일-형식)
+- [프로젝트 구조](#-프로젝트-구조)
+- [문서](#-문서)
+- [라이선스](#-라이선스)
+- [지원](#-지원)
+- [버전 히스토리](#-버전-히스토리)
+
+## 특징
 
 - **간편한 음성 AI 통합**: 몇 줄의 코드로 강력한 음성 AI 기능을 애플리케이션에 추가
 - **다양한 입력 지원**: 로컬 파일 및 URL을 통한 음성/비디오 처리
@@ -22,13 +37,13 @@
 - **유연한 Flow 시스템**: 다양한 음성 AI 워크플로우 지원
 - **간단한 API**: 직관적이고 사용하기 쉬운 Python 인터페이스
 
-## 📋 요구사항
+## 요구사항
 
 - Python 3.10+
 - API 키 ([Audion 서비스 등록](https://audion.magovoice.com/signup) 필요)
   - 회원가입 후 API Key 발급 받아야 합니다.
 
-## 🚀 설치
+## 설치
 
 pip을 사용하여 설치:
 
@@ -52,7 +67,25 @@ pip install -r requirements.txt
 - `pydantic`: 데이터 유효성 검사 및 설정 관리
 - `requests`: HTTP 요청 처리
 
-## ⚡ 빠른 시작
+### 스크립트를 이용한 개발 환경 설정
+
+저장소를 클론한 경우, 제공된 스크립트로 쉽게 환경을 설정할 수 있습니다:
+
+```bash
+# 가상환경 생성, 의존성 설치 및 자동 활성화
+./scripts/setup.sh
+```
+
+스크립트가 완료되면 가상환경이 자동으로 활성화된 새 셸이 시작됩니다.
+
+환경 정리가 필요한 경우:
+
+```bash
+# 캐시 및 빌드 파일 정리
+./scripts/clean.sh
+```
+
+## 빠른 시작
 
 ### 1. 클라이언트 초기화
 
@@ -89,7 +122,7 @@ result = client.flow(
 print(result)
 ```
 
-## 📖 API 문서
+## API 문서
 
 ### AudionClient
 
@@ -148,7 +181,7 @@ client.flow(
 - `ValueError`: 지원하지 않는 input_type인 경우
 - `Exception`: API 호출 실패 시
 
-## 🎵 지원 파일 형식
+## 지원 파일 형식
 
 ### 오디오 형식
 
@@ -172,47 +205,120 @@ client.flow(
 - `.flv` - FLV (Flash Video)
 - `.mpeg`, `.mpg` - MPEG (Moving Picture Experts Group)
 
-## 💡 사용 예제
+## 사용 예제
 
-### 완전한 예제
+이 섹션은 `examples/README.md`의 내용을 포함하며, SDK를 실제로 어떻게 사용하는지 예제 중심으로 설명합니다.
 
-```python
-from audion import AudionClient
+### 사용 준비
 
-def main():
-    # 클라이언트 초기화
-    client = AudionClient(api_key="your-api-key-here")
+#### 1. API 키 설정
 
-    try:
-        # 로컬 파일 처리
-        result = client.flow(
-            flow="audion_vu",
-            input_type="file",
-            input="samples/audio.wav"
-        )
+환경 변수로 API 키를 설정해주세요:
 
-        print("처리 결과:", result)
-
-    except ValueError as e:
-        print(f"입력 오류: {e}")
-    except Exception as e:
-        print(f"처리 오류: {e}")
-
-if __name__ == "__main__":
-    main()
+```bash
+export AUDION_API_KEY='your-api-key-here'
 ```
 
-## 📄 라이선스
+또는 스크립트를 사용하여 실행:
+
+```bash
+AUDION_API_KEY='your-api-key-here' python examples/example_file.py
+```
+
+#### 2. 가상환경 활성화
+
+프로젝트 루트에서:
+
+```bash
+source venv/bin/activate
+```
+
+### 예제 목록
+
+#### `example_file.py`
+
+로컬 오디오/비디오 파일을 처리하는 예제입니다.
+
+**실행 방법:**
+
+```bash
+python examples/example_file.py <file_path>
+
+# 예시
+python examples/example_file.py samples/audio.wav
+python examples/example_file.py /path/to/video.mp4
+```
+
+#### `example_url.py`
+
+YouTube 등의 URL을 처리하는 예제입니다.
+
+**실행 방법:**
+
+```bash
+python examples/example_url.py <url>
+
+# 예시
+python examples/example_url.py https://youtu.be/abc123
+python examples/example_url.py https://www.youtube.com/watch?v=abc123
+```
+
+### 빠른 예제 실행
+
+```bash
+# API 키 설정
+export AUDION_API_KEY='your-api-key-here'
+
+# 파일 처리
+python examples/example_file.py samples/audio.wav
+
+# URL 처리
+python examples/example_url.py https://youtu.be/abc123
+```
+
+### 지원하는 Flow
+
+- `audion_vu`: Voice Understanding - 음성 인식 및 분석
+- `audion_vh`: Voice Highlight - 주요 음성 구간 추출
+- Custom Flow도 지원 가능합니다 (contact@holamago.com)
+
+## 프로젝트 구조
+
+```
+audion-python-sdk/
+├── README.md            # 메인 문서 (이 파일)
+├── audion/              # 메인 패키지
+│   ├── client.py        # AudionClient 클래스
+│   ├── base.py          # 기본 클라이언트 구현
+│   ├── config.py        # 설정
+│   ├── core/            # 핵심 기능
+│   └── helper/          # 유틸리티
+├── examples/            # 사용 예제
+│   ├── README.md
+│   ├── example_file.py
+│   └── example_url.py
+├── scripts/             # 환경 설정 스크립트
+│   ├── setup.sh
+│   └── clean.sh
+└── requirements.txt     # 의존성
+```
+
+## 문서
+
+- **GitHub**: [github.com/holamago/audion-python-sdk](https://github.com/holamago/audion-python-sdk)
+- **예제**: [examples/](examples/) 디렉토리
+
+## 라이선스
 
 이 프로젝트는 [Apache License 2.0](LICENSE) 하에 라이선스됩니다.
 
-## 📞 지원
+## 지원
 
 - **문서**: [Audion 공식 문서](https://audion.magovoice.com)
 - **이슈**: [GitHub Issues](https://github.com/holamago/audion-python-sdk/issues)
 - **이메일**: contact@holamago.com
 
-## 📈 버전 히스토리
+## 버전 히스토리
 
 - **v0.1.0**: 초기 릴리스
   - 기본 flow API 지원

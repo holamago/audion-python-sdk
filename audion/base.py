@@ -55,7 +55,7 @@ class BaseAudionClient(BaseAudionConfig):
         """
         # Set Authorization header with api_key
         headers = {
-            "Authorization": f"Bearer {self.api_key}"
+            "Authorization": f"Audion {self.api_key}"
         }
 
         # Define url
