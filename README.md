@@ -14,6 +14,8 @@
 
 # Audion Python SDK
 
+> Repository: https://github.com/holamago/audion-python-sdk
+
 ## 목차
 
 - [특징](#특징)
@@ -50,7 +52,7 @@ pip을 사용하여 설치:
 ```bash
 pip install audion
 ```
-** 지원 예정
+**지원 예정**
 
 또는 requirements.txt에서 의존성과 함께 설치:
 
