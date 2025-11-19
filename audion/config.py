@@ -4,5 +4,5 @@
 # AUTHORS:
 # Sukbong Kwon (Galois)
 
-PRODUCTION_URL = "https://audion.magovoice.com/go-framework/v1/go"
+PRODUCTION_URL = "https://audion.magovoice.com/api-key/v1"
 TIMEOUT = 300

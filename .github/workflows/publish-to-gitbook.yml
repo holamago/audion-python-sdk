@@ -1,0 +1,44 @@
+name: Publish to GitBook
+
+on:
+  push:
+    branches: 
+      - "main"
+    paths:
+      - "README.md"
+      - "flow_api_only.yaml"
+  workflow_dispatch:
+
+jobs:
+  publish-api-spec:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[publish-api]') || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Convert and Publish OpenAPI Spec
+        env:
+          GITBOOK_TOKEN: ${{ secrets.GITBOOK_TOKEN }}
+          GITBOOK_SPEC_NAME: ${{ vars.GITBOOK_SPEC_NAME }}
+          GITBOOK_ORGANIZATION_ID: ${{ vars.GITBOOK_ORGANIZATION_ID }}
+        run: |
+          npm install -g swagger2openapi
+          
+          echo "Converting Swagger to OpenAPI 3.0..."
+          swagger2openapi flow_api_only.yaml -o audion-api.yaml
+          
+          echo "Publishing to GitBook..."
+          npx -y @gitbook/cli@latest openapi publish \
+            --spec "$GITBOOK_SPEC_NAME" \
+            --organization "$GITBOOK_ORGANIZATION_ID" \
+            audion-api.yaml
+          
+          echo "Published successfully"
+
