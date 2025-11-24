@@ -12,26 +12,21 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %p %I:%M:%S",
 )
 
+
 def get_logger(
     name: str,
-    level: str = 'INFO'
-)-> logging.Logger:
-    """Get name for logger from current module
+    level: str = "INFO",
+) -> logging.Logger:
+    """Get configured logger for the given module name.
 
     Args:
-        name (str): Name of module
-        level (int): Logging level
-            logging.DEBUG
-            logging.INFO
-            logging.WARNING
-            logging.ERROR
-            logging.CRITICAL
-            logging.NOTSET
+        name: Name of module.
+        level: Logging level name (e.g. \"DEBUG\", \"INFO\").
 
     Returns:
-        logging.Logger: Logger object
+        logging.Logger: Configured logger instance.
     """
-    logger = logging.getLogger(name.split('.')[-1])
+    logger = logging.getLogger(name.split(".")[-1])
 
     # Set logging level from string
     level = level.upper()
@@ -41,3 +36,5 @@ def get_logger(
         logger.setLevel(logging.INFO)
 
     return logger
+
+

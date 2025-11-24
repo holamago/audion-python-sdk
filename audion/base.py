@@ -6,7 +6,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from .config import PRODUCTION_URL, TIMEOUT
-from .core.logs import get_logger
+from .helper.logs import get_logger
 from .helper.utils import get_media_type
 
 logger = get_logger(__name__)
