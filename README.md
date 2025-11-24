@@ -47,12 +47,11 @@
 
 ## 설치
 
-pip을 사용하여 설치:
+pip을 사용하여 설치 (PyPI 패키지 이름: `audionlib`):
 
 ```bash
-pip install audion
+pip install audionlib
 ```
-**지원 예정**
 
 또는 requirements.txt에서 의존성과 함께 설치:
 

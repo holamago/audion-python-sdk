@@ -1,0 +1,39 @@
+[_]
+_ = "This file was generated to configure packaging for the audion Python SDK."
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audionlib"
+version = "0.1.1"
+description = "Audion Python SDK - 간편하게 음성 AI 기능을 통합하기 위한 Python 클라이언트 라이브러리"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "MAGO", email = "developers@holamago.com" },
+]
+dependencies = [
+  "pydantic",
+  "requests",
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/holamago/audion-python-sdk"
+Source = "https://github.com/holamago/audion-python-sdk"
+Issues = "https://github.com/holamago/audion-python-sdk/issues"
+
+[tool.setuptools]
+
+[tool.setuptools.packages.find]
+include = ["audion*"]
+
+
