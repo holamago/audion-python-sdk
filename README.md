@@ -149,15 +149,16 @@ AudionClient(
 
 #### 메서드
 
-##### `flow(flow, input_type, input)`
+##### `flow(flow, input_type, input, on_progress=None)`
 
 지정된 플로우로 음성/비디오 처리를 실행합니다.
 
 ```python
 client.flow(
-    flow: str,        # 실행할 플로우 이름
-    input_type: str,  # 입력 타입: "file" 또는 "url"
-    input: str        # 파일 경로 또는 URL
+    flow: str,              # 실행할 플로우 이름
+    input_type: str,        # 입력 타입: "file" 또는 "url"
+    input: str,             # 파일 경로 또는 URL
+    on_progress: callable = None
 )
 ```
 
@@ -170,6 +171,24 @@ client.flow(
   - Custom Flow 지원 가능 (email:contact@holamago.com)
 - `input_type` (str): 입력 타입. `"file"` 또는 `"url"`
 - `input` (str): 처리할 파일의 경로 또는 URL
+- `on_progress` (callable, 선택): 진행률 이벤트를 받을 콜백. 지정하지 않으면 기존과 동일하게 최종 JSON 응답만 반환합니다.
+
+**진행률 콜백 예시:**
+
+```python
+def handle_progress(event):
+    status = event.get("status")
+    data = event.get("data", {})
+    print(status, data)
+
+result = client.flow(
+    flow="audion_vu",
+    input_type="url",
+    input="https://youtu.be/your-video-id",
+    on_progress=handle_progress,
+)
+print(result)
+```
 
 **반환값:**
 
