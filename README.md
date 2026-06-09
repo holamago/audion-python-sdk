@@ -121,6 +121,53 @@ saved_path = client.download(
 print(f"저장 경로: {saved_path}")
 ```
 
+### 5. 진행률 확인
+
+`on_progress` 콜백을 전달하면 Flow 실행 중 진행 이벤트를 받을 수 있습니다.
+콜백을 사용해도 `flow()`의 최종 반환값은 기존과 동일한 JSON `dict`입니다.
+
+```python
+def handle_progress(event):
+    status = event.get("status")
+    data = event.get("data", {})
+
+    if status == "running":
+        print(
+            data.get("message"),
+            data.get("percentage"),
+            data.get("flowName"),
+        )
+    elif status == "completed":
+        print("처리 완료")
+    elif status == "failed":
+        print("처리 실패:", data)
+
+result = client.flow(
+    flow="audion_vu",
+    input_type="url",
+    input="https://youtu.be/your-video-id",
+    on_progress=handle_progress,
+)
+
+print(result)
+```
+
+진행 이벤트는 서버의 SSE(Server-Sent Events)를 SDK가 내부에서 구독해 콜백으로 전달합니다.
+일반적인 이벤트 형태는 다음과 같습니다.
+
+```python
+{
+    "status": "running",
+    "data": {
+        "flowName": "speech2text",
+        "progress": 50,
+        "percentage": "50%",
+        "currentStep": "Step 3/6: speech2text",
+        "message": "Processing: speech2text (50%)",
+    },
+}
+```
+
 ## API 문서
 
 ### AudionClient
@@ -179,7 +226,13 @@ client.flow(
 def handle_progress(event):
     status = event.get("status")
     data = event.get("data", {})
-    print(status, data)
+
+    if status == "running":
+        print(data.get("currentStep"), data.get("percentage"))
+    elif status == "completed":
+        print("Flow completed")
+    elif status == "failed":
+        print("Flow failed", data)
 
 result = client.flow(
     flow="audion_vu",
@@ -189,6 +242,8 @@ result = client.flow(
 )
 print(result)
 ```
+
+`on_progress`를 지정하면 SDK는 먼저 스트리밍 모드로 Flow를 시작하고, 반환된 `documentId`로 진행률 스트림을 구독합니다. `running` 이벤트는 콜백으로 계속 전달되고, 마지막 `completed` 이벤트의 결과가 기존 `flow()` 응답 형태로 반환됩니다.
 
 **반환값:**
 

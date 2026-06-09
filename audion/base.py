@@ -68,6 +68,14 @@ class BaseAudionClient(BaseAudionConfig):
             status = event.get("status")
 
             if status == "completed":
+                on_progress({
+                    "status": "running",
+                    "data": {
+                        "progress": 100,
+                        "percentage": "100%",
+                        "message": "Flow execution completed",
+                    },
+                })
                 final_response = {
                     "status": "success",
                     "message": "Flow execution completed",
@@ -112,6 +120,7 @@ class BaseAudionClient(BaseAudionConfig):
             timeout=self.timeout,
         ) as response:
             response.raise_for_status()
+            response.encoding = "utf-8"
             yield from self._iter_sse_events(response)
 
     def _post_flow(
