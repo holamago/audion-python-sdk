@@ -215,6 +215,7 @@ client.flow(
   - 현재 지원하는 플로우:
     - `audion_vu`: Voice Understanding
     - `audion_vh`: Voice Highlight
+    - `audion_stt`: STT + LLM
   - Custom Flow 지원 가능 (email:contact@holamago.com)
 - `input_type` (str): 입력 타입. `"file"` 또는 `"url"`
 - `input` (str): 처리할 파일의 경로 또는 URL
@@ -248,6 +249,23 @@ print(result)
 **반환값:**
 
 - `dict`: 처리 결과를 포함하는 JSON 응답
+
+응답의 분석 결과는 `result["content"]["output"]`에 있습니다. Flow에 따라 일부 필드는 제공되지 않을 수 있습니다.
+
+```python
+output = result["content"]["output"]
+
+for utterance in output.get("utterances", []):
+    biomarkers = (
+        utterance.get("emotion_info", {})
+        .get("principal_vocal_biomarkers", {})
+    )
+    f0_mean = biomarkers.get("pitch", {}).get("f0_mean")
+    if f0_mean:
+        print(f0_mean["value"], f0_mean["level"])
+```
+
+`principal_vocal_biomarkers`는 `energy`, `pitch`, `shimmer`, `hnr`, `speech_related` 등의 동적 카테고리로 구성됩니다. 각 지표는 `{"value": ..., "level": ...}` 형태이며, 신규 카테고리나 지표가 추가될 수 있습니다. `words`, `emotion_info`, `speed_info`, `dementia_info`, `depression_info`는 flow에 따라 없을 수 있으므로 `.get()`으로 접근하세요. 특히 `audion_stt`는 STT와 MLLM만 수행하므로 음성 바이오마커 및 인지/우울 분석 필드를 제공하지 않을 수 있습니다.
 
 **예외:**
 
@@ -314,6 +332,7 @@ client.download(
 
 - `audion_vu`: Voice Understanding - 음성 인식 및 분석
 - `audion_vh`: Voice Highlight - 주요 음성 구간 추출
+- `audion_stt`: STT + LLM - 음성 인식 및 언어 분석
 - Custom Flow도 지원 가능합니다 (contact@holamago.com)
 
 
@@ -333,6 +352,15 @@ client.download(
 - **이메일**: contact@holamago.com
 
 ## 버전 히스토리
+
+<details>
+<summary><b>v0.2.0</b></summary>
+
+- 중첩형 `principal_vocal_biomarkers` 응답 스키마 문서화
+- 발화별 `words`, 치매/우울 분석의 best 값 반영
+- `audion_stt` flow 지원
+
+</details>
 
 <details>
 <summary><b>v0.1.7</b></summary>
