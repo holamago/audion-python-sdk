@@ -216,6 +216,7 @@ client.flow(
     - `audion_vu`: Voice Understanding
     - `audion_vh`: Voice Highlight
     - `audion_stt`: STT + LLM
+    - `audion_stt_2spk`: Fixed two-speaker STT + LLM
   - Custom Flow 지원 가능 (email:contact@holamago.com)
 - `input_type` (str): 입력 타입. `"file"` 또는 `"url"`
 - `input` (str): 처리할 파일의 경로 또는 URL
@@ -333,6 +334,7 @@ client.download(
 - `audion_vu`: Voice Understanding - 음성 인식 및 분석
 - `audion_vh`: Voice Highlight - 주요 음성 구간 추출
 - `audion_stt`: STT + LLM - 음성 인식 및 언어 분석
+- `audion_stt_2spk`: Fixed two-speaker STT + LLM - 2인 화자 고정 음성 인식 및 언어 분석
 - Custom Flow도 지원 가능합니다 (contact@holamago.com)
 
 
@@ -359,6 +361,7 @@ client.download(
 - 중첩형 `principal_vocal_biomarkers` 응답 스키마 문서화
 - 발화별 `words`, 치매/우울 분석의 best 값 반영
 - `audion_stt` flow 지원
+- `audion_stt_2spk` 2인 화자 고정 flow 지원
 
 </details>
 
