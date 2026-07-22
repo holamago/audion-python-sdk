@@ -47,6 +47,7 @@ class BaseAudionClient(BaseAudionConfig):
         input_type: str,
         input: str,
         on_progress: Optional[Callable[[Dict[str, Any]], None]] = None,
+        num_speakers: Optional[int] = None,
     ) -> Optional[Dict[str, Any]]:
         """
         Call the API with the given flow, input type, and input.
@@ -58,12 +59,14 @@ class BaseAudionClient(BaseAudionConfig):
             on_progress: Optional callback for progress events. When provided,
                          the request runs in streaming mode and still returns
                          the final JSON response as a dict.
+            num_speakers: Optional speaker limit for diarization. Use 0 for no
+                          limit, or 1-8 to set a fixed maximum.
         """
         if on_progress is None:
-            return self._post_flow(flow, input_type, input)
+            return self._post_flow(flow, input_type, input, num_speakers=num_speakers)
 
         final_response = None
-        for event in self.flow_events(flow, input_type, input):
+        for event in self.flow_events(flow, input_type, input, num_speakers=num_speakers):
             on_progress(event)
             status = event.get("status")
 
@@ -96,11 +99,18 @@ class BaseAudionClient(BaseAudionConfig):
         flow: str,
         input_type: str,
         input: str,
+        num_speakers: Optional[int] = None,
     ) -> Iterator[Dict[str, Any]]:
         """
         Start a flow in streaming mode and yield Server-Sent Event payloads.
         """
-        start_response = self._post_flow(flow, input_type, input, stream=True)
+        start_response = self._post_flow(
+            flow,
+            input_type,
+            input,
+            stream=True,
+            num_speakers=num_speakers,
+        )
         content = start_response.get("content", {}) if start_response else {}
         document_id = content.get("documentId")
 
@@ -129,9 +139,10 @@ class BaseAudionClient(BaseAudionConfig):
         input_type: str,
         input: str,
         stream: bool = False,
+        num_speakers: Optional[int] = None,
     ) -> Optional[Dict[str, Any]]:
         url = f"{self.base_url}/flow"
-        data = self._flow_payload(flow, input_type, input, stream)
+        data = self._flow_payload(flow, input_type, input, stream, num_speakers)
         response = None
 
         try:
@@ -185,6 +196,7 @@ class BaseAudionClient(BaseAudionConfig):
         input_type: str,
         input: str,
         stream: bool = False,
+        num_speakers: Optional[int] = None,
     ) -> Dict[str, str]:
         payload = {
             "flow": flow,
@@ -193,7 +205,17 @@ class BaseAudionClient(BaseAudionConfig):
         }
         if stream:
             payload["stream"] = "true"
+        if num_speakers is not None:
+            BaseAudionClient._validate_num_speakers(num_speakers)
+            payload["num_speakers"] = str(num_speakers)
         return payload
+
+    @staticmethod
+    def _validate_num_speakers(num_speakers: int) -> None:
+        if not isinstance(num_speakers, int):
+            raise ValueError("num_speakers must be an integer")
+        if num_speakers < 0 or num_speakers > 8:
+            raise ValueError("num_speakers must be between 0 and 8")
 
     @staticmethod
     def _iter_sse_events(response: requests.Response) -> Iterator[Dict[str, Any]]:

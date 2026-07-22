@@ -196,7 +196,7 @@ AudionClient(
 
 #### 메서드
 
-##### `flow(flow, input_type, input, on_progress=None)`
+##### `flow(flow, input_type, input, on_progress=None, num_speakers=None)`
 
 지정된 플로우로 음성/비디오 처리를 실행합니다.
 
@@ -205,7 +205,8 @@ client.flow(
     flow: str,              # 실행할 플로우 이름
     input_type: str,        # 입력 타입: "file" 또는 "url"
     input: str,             # 파일 경로 또는 URL
-    on_progress: callable = None
+    on_progress: callable = None,
+    num_speakers: int = None # 화자 수 제한: 생략 또는 0은 제한 없음, 1~8은 지정 화자 수
 )
 ```
 
@@ -216,11 +217,22 @@ client.flow(
     - `audion_vu`: Voice Understanding
     - `audion_vh`: Voice Highlight
     - `audion_stt`: STT + LLM
-    - `audion_stt_2spk`: Fixed two-speaker STT + LLM
   - Custom Flow 지원 가능 (email:contact@holamago.com)
 - `input_type` (str): 입력 타입. `"file"` 또는 `"url"`
 - `input` (str): 처리할 파일의 경로 또는 URL
 - `on_progress` (callable, 선택): 진행률 이벤트를 받을 콜백. 지정하지 않으면 기존과 동일하게 최종 JSON 응답만 반환합니다.
+- `num_speakers` (int, 선택): `audion_stt` 화자 수 제한. 생략 또는 `0`은 제한 없음, `1~8`은 지정 화자 수로 처리합니다.
+
+**화자 수 지정 예시:**
+
+```python
+result = client.flow(
+    flow="audion_stt",
+    input_type="file",
+    input="/path/to/audio.wav",
+    num_speakers=2,
+)
+```
 
 **진행률 콜백 예시:**
 
@@ -333,8 +345,7 @@ client.download(
 
 - `audion_vu`: Voice Understanding - 음성 인식 및 분석
 - `audion_vh`: Voice Highlight - 주요 음성 구간 추출
-- `audion_stt`: STT + LLM - 음성 인식 및 언어 분석
-- `audion_stt_2spk`: Fixed two-speaker STT + LLM - 2인 화자 고정 음성 인식 및 언어 분석
+- `audion_stt`: STT + LLM - 음성 인식 및 언어 분석 (`num_speakers` 선택 지원)
 - Custom Flow도 지원 가능합니다 (contact@holamago.com)
 
 
@@ -356,12 +367,19 @@ client.download(
 ## 버전 히스토리
 
 <details>
+<summary><b>v0.2.1</b></summary>
+
+- `audion_stt` flow의 `num_speakers` 선택 옵션 지원
+- `num_speakers` 생략 또는 `0` 지정 시 화자 수 제한 없음 처리
+
+</details>
+
+<details>
 <summary><b>v0.2.0</b></summary>
 
 - 중첩형 `principal_vocal_biomarkers` 응답 스키마 문서화
 - 발화별 `words`, 치매/우울 분석의 best 값 반영
 - `audion_stt` flow 지원
-- `audion_stt_2spk` 2인 화자 고정 flow 지원
 
 </details>
 
